@@ -9,6 +9,65 @@
 * **Stack**
 * **Binary tree**
 
+# Examples
+
+**Fixed array** and **Deque** are based on **array**
+
+```c
+#include <stdio.h>
+#include "DS.h"
+
+void main() {
+  // Fixed Array
+  Array arr = array(1, "Hello, world!");
+  for (void* iter = ar_begin(&arr); 1 != ar_done(iter); iter = ar_next(&arr)) {
+    // Hello, world!
+    printf("%s", (const char*)iter);
+  }
+  ar_clear(&arr);
+
+  // Dynamic Array
+  Deque dq = deque(1, "Hello, world!");
+  dq_push_back(&dq, "Example");
+
+  for (void* iter = dq_begin(&dq); 1 != dq_done(iter); iter = dq_next(&dq)) {
+    // Hello, world!
+    // Example
+    printf("%s", (const char*)iter);
+  }
+  dq_clear(&dq);
+}
+```
+
+**Linked list**, **Queue**, **Stack**, **Binary Tree** are based on **Linked list**
+
+```c
+#include <stdio.h>
+#include "DS.h"
+
+void main() {
+  List ls = list(1, "Hello, world!");
+  ls_push_front(&ls, "Example");
+
+  for (Node* iter = ls_begin(&ls); 1 != ls_done(iter); iter = ls_next(iter)) {
+    // Example
+    // Hello, world!
+    printf("%s", (const char*) iter->element);
+  }
+  ls_clear(&ls);
+
+  Tree tr = tree(1, "Hello, world!");
+  tr_insert(&tr, "Example");
+
+  for (Node* iter = tr_begin(&tr); 1 != tr_done(iter); iter = tr_next(&tr, &iter)) {
+    // Hello, world
+    // Example
+    printf("%s", (const char*) iter->element);
+  }
+  tr_clear(&tr);
+}
+```
+
 ## Fixed Array
 
 ### Array array(size_t, ...)
