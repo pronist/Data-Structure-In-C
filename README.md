@@ -7,7 +7,7 @@
 * **Linked list**
 * **Queue**
 * **Stack**
-* **Binary tree**
+* **Tree (Binary Tree)**
 
 # Examples
 
@@ -39,7 +39,7 @@ void main() {
 }
 ```
 
-**Linked list**, **Queue**, **Stack**, **Binary Tree** are based on **Linked list**
+**Linked list**, **Queue**, **Stack**, **Tree** are based on **Linked list**
 
 ```c
 #include <stdio.h>
@@ -465,7 +465,7 @@ Get top element
 void* ele = st_top(&st);
 ```
 
-## Binary Tree
+## Tree
 
 ### Tree tree(size_t, ...)
 

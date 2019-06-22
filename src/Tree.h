@@ -24,7 +24,7 @@ Tree    tree(size_t size, ...);
 void    tr_insert(Tree*, void*);
 void    tr_erase(Tree*, void*);
 
-Node* tr_at(Tree*, void*);
+void*   tr_at(Tree*, void*);
 void    tr_clear(Tree* tree);
 
 Node* tr_begin(Tree*);
@@ -174,14 +174,33 @@ void tr_erase(Tree* tree, void* element) {
  *
  * @public
  */
-Node* tr_at(Tree* tree, void* element) {
-  Node* at = NULL;
-  for (Node* iter = tr_begin(tree); 1 != tr_done(iter); iter = tr_next(tree, &iter)) {
-    if (iter->element == element) {
-      at = iter; break;
-    };
+void* tr_at(Tree* tree, void* element) {
+  Node* at = tree->root;
+  Node* current = at;
+  Queue searchQueue = queue(0);
+  int done = 0;
+
+  for (int i = 0; i < tree->length; i++) {
+    if (current != NULL && current->element == element) return (Node*) current;
+    if (searchQueue.length > 0 && done == 1) {
+      at = (Node*)qu_front(&searchQueue);
+      qu_pop(&searchQueue);
+      done = 0;
+    }
+    if (at->prev != NULL && current != at->prev && done == 0) {
+      current = at->prev;
+      if (at->next == NULL) done = 1;
+    } else if (at->next != NULL && current != at->next && done == 0) {
+      current = at->next;
+      done = 1;
+    }
+    if (current != NULL) {
+      if (current->next != NULL || current->prev != NULL) {
+        qu_push(&searchQueue, current);
+      }
+    }
   }
-  return at;
+  return NULL;
 }
 
 /**
