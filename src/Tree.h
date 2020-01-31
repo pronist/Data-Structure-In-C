@@ -19,19 +19,20 @@ typedef struct __Tree__ {
   Stack _searchStack;
 } Tree;
 
-Tree    tree(size_t size, ...);
+Tree  tree(size_t size, ...);
 
-void    tr_insert(Tree*, void*);
-void    tr_erase(Tree*, void*);
+void  tr_insert(Tree*, void*);
+void  tr_erase(Tree*, void*);
 
-void*   tr_at(Tree*, void*);
-void    tr_clear(Tree* tree);
+void* tr_at(Tree*, void*);
+void  tr_clear(Tree* tree);
 
 Node* tr_begin(Tree*);
-Node* tr_next(Tree*);
+Node* tr_next(Tree*, Node**);
 Node* tr_end(Tree*);
-Node* tr_prev(Tree*);
-int      tr_done(void* iter);
+Node* tr_prev(Tree*, Node**);
+
+int   tr_done(void* iter);
 
 /**
  * @private
@@ -163,7 +164,7 @@ void tr_erase(Tree* tree, void* element) {
       if (NULL != (lowest = (Node**) __remove(tree, &iter))) break;
     }
   }
-  if (lowest != NULL && lowest != 1) {
+  if (lowest != NULL && lowest != (void*) 1) {
     __remove(tree, (Node**) lowest);
   }
   tree->length--;
@@ -176,36 +177,20 @@ void tr_erase(Tree* tree, void* element) {
  */
 void* tr_at(Tree* tree, void* element) {
   Node* at = tree->root;
-  Node* current = at;
-  Queue searchQueue = queue(0);
-  int done = 0;
-
   for (int i = 0; i < tree->length; i++) {
-    if (current != NULL && current->element == element) return (Node*) current;
-    if (searchQueue.length > 0 && done == 1) {
-      at = (Node*)qu_front(&searchQueue);
-      qu_pop(&searchQueue);
-      done = 0;
+    if (at->element < element) {
+      at = at->next;
+    } else if (at->element > element) {
+      at = at->prev;
     }
-    if (at->prev != NULL && current != at->prev && done == 0) {
-      current = at->prev;
-      if (at->next == NULL) done = 1;
-    } else if (at->next != NULL && current != at->next && done == 0) {
-      current = at->next;
-      done = 1;
-    }
-    if (current != NULL) {
-      if (current->next != NULL || current->prev != NULL) {
-        qu_push(&searchQueue, current);
-      }
-    }
+    if (at->element == element) return (Node*) at;
   }
   return NULL;
 }
 
 /**
  * Clear binary tree
- * 
+ *
  * @public
  */
 void tr_clear(Tree* tree) {

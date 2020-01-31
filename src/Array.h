@@ -7,7 +7,7 @@
 typedef struct __Array__ {
   int length;
 
-  /*
+  /**
    * @private
    */
   void** _elements;
@@ -23,6 +23,7 @@ void* ar_begin(Array*);
 void* ar_next(Array*);
 void* ar_end(Array*);
 void* ar_prev(Array*);
+
 int   ar_done(void*);
 
 /**
@@ -31,7 +32,7 @@ int   ar_done(void*);
  * @public
  */
 Array array(size_t size, ...) {
-  Array array = { .length = size, ._elements = malloc(sizeof(void*)*size), ._position = 0 }; 
+  Array array = { .length = size, ._elements = malloc(sizeof(void*) * size), ._position = 0 };
   va_list ap;
   va_start(ap, size);
   for (int i = 0; i < size; i++) {

@@ -9,8 +9,8 @@
 
 typedef struct __Deque__ {
   int length;
-  
-  /*
+
+  /**
    * @private
    */
   void** _elements;
@@ -34,7 +34,8 @@ void* dq_begin(Deque*);
 void* dq_next(Deque*);
 void* dq_end(Deque*);
 void* dq_prev(Deque*);
-int    dq_done(void*);
+
+int   dq_done(void*);
 
 /**
  * @private
@@ -103,7 +104,7 @@ void dq_pop_back(Deque* deque) {
   __realloc(deque, --deque->length);
 }
 
-/*
+/**
  * Push element at Position
  *
  * @public
@@ -116,7 +117,7 @@ void dq_insert(Deque* deque, void* element, int position) {
   deque->_elements[position] = element;
 }
 
-/*
+/**
  * Remove element at Position
  *
  * @public

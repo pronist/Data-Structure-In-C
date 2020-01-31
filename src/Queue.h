@@ -95,6 +95,7 @@ void* qu_front(Queue* queue) {
   if (queue->front != NULL) {
     return queue->front->element;
   }
+  return NULL;
 }
 
 /**
@@ -106,6 +107,7 @@ void* qu_rear(Queue* queue) {
   if (queue->rear != NULL) {
     return queue->rear->element;
   }
+  return NULL;
 }
 
 #endif // !__QUEUE__

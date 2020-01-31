@@ -19,7 +19,8 @@ void  ls_push_front(List*, void*);
 void  ls_pop_front(List*);
 void  ls_push_back(List*, void*);
 void  ls_pop_back(List*);
-void  ls_insert(List*, Node*);
+
+void  ls_insert(List*, Node*, void*);
 void  ls_erase(List*, Node*);
 
 Node* ls_at(List*, void*);
@@ -29,6 +30,7 @@ Node* ls_begin(List*);
 Node* ls_end(List*);
 Node* ls_next(Node*);
 Node* ls_prev(Node*);
+
 int   ls_done(Node*);
 
 /**
@@ -161,11 +163,12 @@ void ls_erase(List* list, Node* iter) {
  * @public
  */
 Node* ls_at(List* list, void* element) {
-  for (Node* iter = ls_begin(list); 1 != ls_next(iter); iter = ls_next(list)) {
+  for (Node* iter = ls_begin(list); 1 != ls_done(iter); iter = ls_next(iter)) {
     if (iter->element == element) {
       return iter;
     }
   }
+  return NULL;
 }
 
 /**

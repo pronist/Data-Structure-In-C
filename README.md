@@ -9,72 +9,15 @@
 * **Stack**
 * **Tree (Binary Tree)**
 
-# Examples
+## Getting Started
 
-**Fixed array** and **Deque** are based on **array**
-
-```c
-#include <stdio.h>
-#include "DS.h"
-
-void main() {
-  // Fixed Array
-  Array arr = array(1, "Hello, world!");
-  for (void* iter = ar_begin(&arr); 1 != ar_done(iter); iter = ar_next(&arr)) {
-    // Hello, world!
-    printf("%s", (const char*)iter);
-  }
-  ar_clear(&arr);
-
-  // Dynamic Array
-  Deque dq = deque(1, "Hello, world!");
-  dq_push_back(&dq, "Example");
-
-  for (void* iter = dq_begin(&dq); 1 != dq_done(iter); iter = dq_next(&dq)) {
-    // Hello, world!
-    // Example
-    printf("%s", (const char*)iter);
-  }
-  dq_clear(&dq);
-}
-```
-
-**Linked list**, **Queue**, **Stack**, **Tree** are based on **Linked list**
-
-```c
-#include <stdio.h>
-#include "DS.h"
-
-void main() {
-  List ls = list(1, "Hello, world!");
-  ls_push_front(&ls, "Example");
-
-  for (Node* iter = ls_begin(&ls); 1 != ls_done(iter); iter = ls_next(iter)) {
-    // Example
-    // Hello, world!
-    printf("%s", (const char*) iter->element);
-  }
-  ls_clear(&ls);
-
-  Tree tr = tree(1, "Hello, world!");
-  tr_insert(&tr, "Example");
-
-  for (Node* iter = tr_begin(&tr); 1 != tr_done(iter); iter = tr_next(&tr, &iter)) {
-    // Hello, world
-    // Example
-    printf("%s", (const char*) iter->element);
-  }
-  tr_clear(&tr);
-}
-```
+You can include specific Data Structures such as ```Array.h```, or If you want to use all DSs Just include such as ```DS.h```. If you need more examples, follow descriptions.
 
 ## Fixed Array
 
 ### Array array(size_t, ...)
 
 Create Array
-
-#### Usage
 
 ```c
 Array arr = array(1, "Hello, world!");
@@ -84,8 +27,6 @@ Array arr = array(1, "Hello, world!");
 
 Get element with position
 
-#### Usage
-
 ```c
 void* ele = ar_at(&arr, 0);
 ```
@@ -94,21 +35,17 @@ void* ele = ar_at(&arr, 0);
 
 Clear Array
 
-#### Usage
-
 ```c
 void* ele = ar_clear(&arr);
 ```
 
-### Iterator
+### Array Iterators
 
-* <strong>void* ar_begin(Array*)</strong>
-* <strong>void* ar_next(Array*)</strong>
-* <strong>void* ar_end(Array*)</strong>
-* <strong>void* ar_prev(Array*)</strong>
-* <strong>int ar_done(void*)</strong>
-
-#### Usage
+* void* ar_begin(Array*)
+* void* ar_next(Array*)
+* void* ar_end(Array*)
+* void* ar_prev(Array*)
+* int ar_done(void*)
 
 ```c
 Array arr = array(1, "Hello, world!");
@@ -126,8 +63,6 @@ ar_clear(&arr);
 
 Create Deque
 
-#### Usage
-
 ```c
 Deque dq = deque(1, "Hello, world");
 ```
@@ -135,8 +70,6 @@ Deque dq = deque(1, "Hello, world");
 ### void dq_push_front(Deque*, void*)
 
 Push new node at Front
-
-#### Usage
 
 ```c
 dq_push_front(&dq, "Example");
@@ -146,8 +79,6 @@ dq_push_front(&dq, "Example");
 
 Remove node at Front
 
-#### Usage
-
 ```c
 dq_pop_front(&dq);
 ```
@@ -155,8 +86,6 @@ dq_pop_front(&dq);
 ### void dq_push_back(Deque*, void*)
 
 Push new node at Back
-
-#### Usage
 
 ```c
 dq_push_back(&dq, "Example");
@@ -166,8 +95,6 @@ dq_push_back(&dq, "Example");
 
 Remove node at Back
 
-#### Usage
-
 ```c
 dq_pop_back(&dq);
 ```
@@ -175,8 +102,6 @@ dq_pop_back(&dq);
 ### void dq_insert(Deque*, void*, int)
 
 Push element at Position
-
-#### Usage
 
 ```c
 dq_insert(&dq, "Example", 1);
@@ -186,8 +111,6 @@ dq_insert(&dq, "Example", 1);
 
 Remove element at Position
 
-#### Usage
-
 ```c
 dq_erase(&dq, 1);
 ```
@@ -195,8 +118,6 @@ dq_erase(&dq, 1);
 ### void* dq_at(Deque*, int)
 
 Get element with position
-
-#### Usage
 
 ```c
 void* ele = dq_at(&dq, 1);
@@ -206,21 +127,17 @@ void* ele = dq_at(&dq, 1);
 
 Clear Deque
 
-#### Usage
-
 ```c
 dq_clear(&dq);
 ```
 
-### Iterator
+### Deque Iterators
 
-* <strong>void* dq_begin(Deque*)</strong>
-* <strong>void* dq_next(Deque*)</strong>
-* <strong>void* dq_end(Deque*)</strong>
-* <strong>void* dq_prev(Deque*)</strong>
-* <strong>int dq_done(void*)</strong>
-
-#### Usage
+* void* dq_begin(Deque*)
+* void* dq_next(Deque*)
+* void* dq_end(Deque*)
+* void* dq_prev(Deque*)
+* int dq_done(void*)
 
 ```c
 Deque dq = deque(1, "Hello, world!");
@@ -241,8 +158,6 @@ dq_clear(&dq);
 
 Create Linked List
 
-#### Usage
-
 ```c
 List ls = list(1, "Hello, world!");
 ```
@@ -250,8 +165,6 @@ List ls = list(1, "Hello, world!");
 ### void ls_push_front(List*, void*)
 
 Push new node at Front
-
-#### Usage
 
 ```c
 ls_push_front(&ls, "Example");
@@ -261,8 +174,6 @@ ls_push_front(&ls, "Example");
 
 Remove node at Front
 
-#### Usage
-
 ```c
 ls_pop_front(&ls);
 ```
@@ -270,8 +181,6 @@ ls_pop_front(&ls);
 ### void ls_push_back(List*, void*)
 
 Push new node at Back
-
-#### Usage
 
 ```c
 ls_push_back(&ls, "Example");
@@ -281,8 +190,6 @@ ls_push_back(&ls, "Example");
 
 Remove node at Back
 
-#### Usage
-
 ```c
 ls_pop_back(&ls);
 ```
@@ -290,8 +197,6 @@ ls_pop_back(&ls);
 ### void ls_insert(List*, Node*, void*)
 
 Insert new node at **before** the node
-
-#### Usage
 
 ```c
 Node* n = ls_at(&ls, "Hello, world!");
@@ -302,8 +207,6 @@ ls_insert(&ls, n, "Hi!");
 
 Remove node
 
-#### Usage
-
 ```c
 Node* n = ls_at(&ls, "Hello, world!");
 ls_earse(&ls, n);
@@ -313,8 +216,6 @@ ls_earse(&ls, n);
 
 Get node with element
 
-#### Usage
-
 ```c
 Node* n = ls_at(&ls, "Hello, world!");
 ```
@@ -323,21 +224,17 @@ Node* n = ls_at(&ls, "Hello, world!");
 
 Clear Linked List
 
-#### Usage
-
 ```c
 ls_clear(&ls);
 ```
 
-### Iterator
+### Linked List Iterators
 
-* <strong>Node* ls_begin(List*)</strong>
-* <strong>Node* ls_next(Node*)</strong>
-* <strong>Node* ls_end(List*)</strong>
-* <strong>Node* ls_prev(Node*)</strong>
-* <strong>int ls_done(Node*)</strong>
-
-#### Usage
+* Node* ls_begin(List*)
+* Node* ls_next(Node*)
+* Node* ls_end(List*)
+* Node* ls_prev(Node*)
+* int ls_done(Node*)
 
 ```c
 List ls = list(1, "Hello, world!");
@@ -358,8 +255,6 @@ ls_clear(&ls);
 
 Create Queue
 
-#### Usage
-
 ```c
 Queue qu = queue(1, "Hello, world!");
 ```
@@ -367,8 +262,6 @@ Queue qu = queue(1, "Hello, world!");
 ### void qu_push(Queue*, void*)
 
 Push new node at Back
-
-#### Usage
 
 ```c
 qu_push(&qu, "Example");
@@ -378,8 +271,6 @@ qu_push(&qu, "Example");
 
 Remove node at Front
 
-#### Usage
-
 ```c
 qu_push(&qu);
 ```
@@ -387,8 +278,6 @@ qu_push(&qu);
 ### void qu_clear(Queue*)
 
 Clear Queue
-
-#### Usage
 
 ```c
 qu_clear(&qu);
@@ -398,8 +287,6 @@ qu_clear(&qu);
 
 Get front element
 
-#### Usage
-
 ```c
 void* ele = qu_front(&qu);
 ```
@@ -407,8 +294,6 @@ void* ele = qu_front(&qu);
 ### void* qu_rear(Queue*)
 
 Get rear element
-
-#### Usage
 
 ```c
 void* ele = qu_rear(&qu);
@@ -420,16 +305,13 @@ void* ele = qu_rear(&qu);
 
 Create Stack
 
-#### Usage
-
 ```c
 Stack st = stack(1, "Hello, world!");
 ```
+
 ### void st_push(Stack*, void*)
 
 Push new node at Back
-
-#### Usage
 
 ```c
 st_push(&st, "Example");
@@ -439,8 +321,6 @@ st_push(&st, "Example");
 
 Remove node at Back
 
-#### Usage
-
 ```c
 st_pop(&st);
 ```
@@ -449,8 +329,6 @@ st_pop(&st);
 
 Clear Stack
 
-#### Usage
-
 ```c
 st_clear(&st);
 ```
@@ -458,8 +336,6 @@ st_clear(&st);
 ### void* st_top(Stack*)
 
 Get top element
-
-#### Usage
 
 ```c
 void* ele = st_top(&st);
@@ -471,8 +347,6 @@ void* ele = st_top(&st);
 
 Create Binary Tree
 
-#### Usage
-
 ```c
 Tree tr = tree(1, "Hello, "World"!);
 ```
@@ -480,8 +354,6 @@ Tree tr = tree(1, "Hello, "World"!);
 ### void tr_insert(Tree*, void*)
 
 Insert new node
-
-#### Usage
 
 ```c
 tr_insert(&tr, "Example");
@@ -491,8 +363,6 @@ tr_insert(&tr, "Example");
 
 Remove node with element
 
-#### Usage
-
 ```c
 tr_erase(&tr, "Example");
 ```
@@ -501,29 +371,23 @@ tr_erase(&tr, "Example");
 
 Get node with element
 
-#### Usage
-
 ```c
 Node* n = tr_at(&tr, "Example");
 ```
 
 ### void tr_clear(Tree*)
 
-#### Usage
-
 ```c
 tr_clear(&tr);
 ```
 
-### Iterator
+### Tree Iterators
 
-* <strong>Node* tr_begin(Tree*)</strong>
-* <strong>Node* tr_next(Tree*, Node**)</strong>
-* <strong>Node* tr_end(Tree*)</strong>
-* <strong>Node* tr_prev(Tree*, Node**)</strong>
-* <strong>int tr_done(void*)</strong>
-
-#### Usage
+* Node* tr_begin(Tree*)
+* Node* tr_next(Tree*, Node**)
+* Node* tr_end(Tree*)
+* Node* tr_prev(Tree*, Node**)
+* int tr_done(void*)
 
 ```c
 Tree tr = tree(1, "Hello, world!");
@@ -538,8 +402,8 @@ for (Node* iter = tr_begin(&tr); 1 != tr_done(iter); iter = tr_next(&tr, &iter))
 tr_clear(&tr);
 ```
 
-# License
+## License
 
-MIT
+[MIT](https://github.com/pronist/Data-Structure-In-C/blob/master/LICENSE)
 
-Copyright (c) Mansu Jeong. All rights reserved.
+Copyright 2020. [SangWoo Jeong](https://github.com/pronist). All rights reserved.

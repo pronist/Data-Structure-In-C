@@ -12,6 +12,13 @@ typedef struct __Node__ {
   Node* next;
 } Node;
 
+Node* create_node(void*);
+
+/**
+ * Create a Node
+ *
+ * @public
+ */
 Node* create_node(void* element) {
   Node* node = (Node*) malloc(sizeof(Node));
   node->next = NULL;
