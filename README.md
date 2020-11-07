@@ -9,10 +9,6 @@
 * **Stack**
 * **Tree (Binary Tree)**
 
-## Getting Started
-
-You can include specific Data Structures such as ```Array.h```, or If you want to use all DSs Just include such as ```DS.h```. If you need more examples, follow descriptions.
-
 ## Fixed Array
 
 ### Array array(size_t, ...)
