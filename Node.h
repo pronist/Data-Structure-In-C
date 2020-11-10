@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #include <stdarg.h>
+#include <string.h>
 
 typedef struct __Node__ Node;
 
@@ -21,11 +22,14 @@ Node* create_node(void*);
  */
 Node* create_node(void* element) {
   Node* node = (Node*) malloc(sizeof(Node));
-  node->next = NULL;
-  node->element = element;
-  node->prev = NULL;
+  if (node != NULL) {
+    node->prev = NULL;
+    node->element = element;
+    node->next = NULL;
 
-  return node;
+    return node;
+  }
+  return NULL;
 }
 
 #endif // !__NODE__

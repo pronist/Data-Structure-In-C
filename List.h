@@ -13,7 +13,7 @@ typedef struct __List__ {
   Node* back;
 } List;
 
-List list(size_t size, ...);
+List list(size_t, ...);
 
 void  ls_push_front(List*, void*);
 void  ls_pop_front(List*);
@@ -38,11 +38,11 @@ int   ls_done(Node*);
  *
  * @public
  */
-List list(size_t size, ...) {
+List list(size_t length, ...) {
   List ls = { .length = 0, .front = NULL, .back = NULL };
   va_list ap;
-  va_start(ap, size);
-  for (int i = 0; i < size; i++) {
+  va_start(ap, length);
+  for (int i = 0; i < length; i++) {
     ls_push_back(&ls, va_arg(ap, void*));
   }
   va_end(ap);
@@ -60,7 +60,8 @@ void ls_push_front(List* list, void* element) {
     node->next = list->front;
     node->prev = NULL;
     list->front->prev = node;
-  } else if (list->front == NULL && list->back == NULL) {
+  }
+  else if (list->front == NULL && list->back == NULL) {
     list->back = node;
   }
   list->front = node;
@@ -77,7 +78,8 @@ void ls_pop_front(List* list) {
   if (list->front->next != NULL) {
     list->front = list->front->next;
     list->front->prev = NULL;
-  } else {
+  }
+  else {
     list->back = NULL; list->front = NULL;
   }
   free(node);
@@ -95,7 +97,8 @@ void ls_push_back(List* list, void* element) {
     node->prev = list->back;
     node->next = NULL;
     list->back->next = node;
-  } else if (list->front == NULL && list->back == NULL) {
+  }
+  else if (list->front == NULL && list->back == NULL) {
     list->front = node;
   }
   list->back = node;
@@ -112,7 +115,8 @@ void ls_pop_back(List* list) {
   if (list->back->prev != NULL) {
     list->back = list->back->prev;
     list->back->next = NULL;
-  } else {
+  }
+  else {
     list->back = NULL; list->front = NULL;
   }
   free(node);
@@ -127,7 +131,8 @@ void ls_pop_back(List* list) {
 void ls_insert(List* list, Node* iter, void* element) {
   if (iter == list->front) {
     ls_push_front(list, element);
-  } else {
+  }
+  else {
     Node* node = create_node(element);
 
     node->prev = iter->prev;
@@ -146,9 +151,11 @@ void ls_insert(List* list, Node* iter, void* element) {
 void ls_erase(List* list, Node* iter) {
   if (iter == list->front) {
     ls_pop_front(list);
-  } else if (iter == list->back) {
+  }
+  else if (iter == list->back) {
     ls_pop_back(list);
-  } else {
+  }
+  else {
     iter->prev->next = iter->next;
     iter->next->prev = iter->prev;
 

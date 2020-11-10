@@ -7,34 +7,36 @@
 #include "List.h"
 
 typedef struct __Queue__ {
+  size_t length;
+
   /**
    * @private
    */
-  List _ls
+  List _ls;
 } Queue;
 
-Queue queue(size_t size, ...);
+Queue queue(size_t, ...);
 
 void  qu_push(Queue*, void*);
 void  qu_pop(Queue*);
 
 void  qu_clear(Queue*);
 
-void* qu_front(Queue*);
-void* qu_rear(Queue*);
+Node* qu_front(Queue*);
+Node* qu_rear(Queue*);
 
 /**
  * Create Queue
  *
  * @public
  */
-Queue queue(size_t size, ...) {
+Queue queue(size_t length, ...) {
   List ls = list(0);
-  Queue qu = { ._ls = ls };
+  Queue qu = { .length = 0, ._ls = ls };
   va_list ap;
-  va_start(ap, size);
-  for (int i = 0; i < size; i++) {
-    ls_push_back(&qu._ls, va_arg(ap, void*));
+  va_start(ap, length);
+  for (int i = 0; i < length; i++) {
+    qu_push(&qu, va_arg(ap, void*));
   }
   va_end(ap);
   return qu;
@@ -47,6 +49,7 @@ Queue queue(size_t size, ...) {
  */
 void qu_push(Queue* queue, void* element) {
   ls_push_back(&queue->_ls, element);
+  queue->length = queue->_ls.length;
 }
 
 /**
@@ -68,22 +71,21 @@ void qu_clear(Queue* queue) {
 }
 
 /**
- * Get front element
+ * Get front
  *
  * @public
  */
-void* qu_front(Queue* queue) {
-  return ls_begin(&queue->_ls)->element;
+Node* qu_front(Queue* queue) {
+  return ls_begin(&queue->_ls);
 }
 
 /**
- * Get rear element
+ * Get rear
  *
  * @public
  */
-void* qu_rear(Queue* queue) {
-  return ls_end(&queue->_ls)->element;
+Node* qu_rear(Queue* queue) {
+  return ls_end(&queue->_ls);
 }
 
 #endif // !__QUEUE__
-

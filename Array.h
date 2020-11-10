@@ -5,7 +5,7 @@
 #include <stdarg.h>
 
 typedef struct __Array__ {
-  int length;
+  size_t length;
 
   /**
    * @private
@@ -31,11 +31,11 @@ int   ar_done(void*);
  *
  * @public
  */
-Array array(size_t size, ...) {
-  Array array = { .length = size, ._elements = malloc(sizeof(void*) * size), ._position = 0 };
+Array array(size_t length, ...) {
+  Array array = { .length = length, ._elements = malloc(sizeof(void*) * length), ._position = 0 };
   va_list ap;
-  va_start(ap, size);
-  for (int i = 0; i < size; i++) {
+  va_start(ap, length);
+  for (int i = 0; i < length; i++) {
     array._elements[i] = va_arg(ap, void*);
   }
   va_end(ap);

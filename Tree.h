@@ -43,12 +43,15 @@ void __walk(Tree* tree, Node** iter, const char* direction) {
       if ((*iter)->prev != NULL) {
         *iter = (*iter)->prev;
         st_push(&tree->_searchStack, *iter);
-      } else break;
-    } else {
+      }
+      else break;
+    }
+    else {
       if ((*iter)->next != NULL) {
         *iter = (*iter)->next;
         st_push(&tree->_searchStack, *iter);
-      } else break;
+      }
+      else break;
     }
   }
 }
@@ -60,7 +63,8 @@ int __append(Node** target, Node** iter, void* element) {
   if (*target == NULL) {
     *target = create_node(element);
     return 1;
-  } else {
+  }
+  else {
     *iter = *target;
     return 0;
   }
@@ -75,7 +79,8 @@ Node** __lowest(Node** target, const char* direction) {
     if (strcmp(direction, "next")) {
       if ((*lowest)->next != NULL) lowest = &(*lowest)->next;
       else break;
-    } else {
+    }
+    else {
       if ((*lowest)->prev != NULL) lowest = &(*lowest)->prev;
       else break;
     }
@@ -87,23 +92,27 @@ Node** __lowest(Node** target, const char* direction) {
 /**
  * @private
  */
-void* __remove(Tree * tree, Node** target) {
+void* __remove(Tree* tree, Node** target) {
   if ((*target)->next == NULL && (*target)->prev == NULL) {
     free(*target); *target = NULL;
-    return (void*) 1;
-  } else {
+    return (void*)1;
+  }
+  else {
     if (tree->root != (*target)) {
       if (((*target)->next != NULL && (*target)->prev != NULL)) {
         return __lowest(target, "next");
-      } else {
+      }
+      else {
         Node* t = (*target)->next != NULL ? (*target)->next : (*target)->prev;
         free(*target); *target = t;
-        return (void*) 1;
+        return (void*)1;
       }
-    } else {
+    }
+    else {
       if (((*target)->next != NULL)) {
         return __lowest(target, "next");
-      } else {
+      }
+      else {
         return __lowest(target, "prev");
       }
     }
@@ -116,11 +125,11 @@ void* __remove(Tree * tree, Node** target) {
  *
  * @public
  */
-Tree tree(size_t size, ...) {
+Tree tree(size_t length, ...) {
   Tree tr = { .length = 0, .root = NULL, ._searchStack = stack(0) };
   va_list ap;
-  va_start(ap, size);
-  for (int i = 0; i < size; i++) {
+  va_start(ap, length);
+  for (int i = 0; i < length; i++) {
     tr_insert(&tr, va_arg(ap, void*));
   }
   va_end(ap);
@@ -138,11 +147,13 @@ void tr_insert(Tree* tree, void* element) {
     while (1) {
       if (iter->element < element) {
         if (0 != __append(&iter->next, &iter, element)) break;
-      } else {
+      }
+      else {
         if (0 != __append(&iter->prev, &iter, element)) break;
       }
     }
-  } else {
+  }
+  else {
     tree->root = create_node(element);
   }
   tree->length++;
@@ -157,15 +168,17 @@ void tr_erase(Tree* tree, void* element) {
   void* lowest = NULL;
   for (Node* iter = tr_begin(tree); 1 != tr_done(iter); iter = tr_next(tree, &iter)) {
     if (iter->next != NULL && iter->next->element == element) {
-      if (NULL != (lowest = (Node**) __remove(tree, &iter->next))) break;
-    } else if (iter->prev != NULL && iter->prev->element == element) {
-      if (NULL != (lowest = (Node**) __remove(tree, &iter->prev))) break;
-    } else if (iter->element == element && tree->root->element == element) {
-      if (NULL != (lowest = (Node**) __remove(tree, &iter))) break;
+      if (NULL != (lowest = (Node**)__remove(tree, &iter->next))) break;
+    }
+    else if (iter->prev != NULL && iter->prev->element == element) {
+      if (NULL != (lowest = (Node**)__remove(tree, &iter->prev))) break;
+    }
+    else if (iter->element == element && tree->root->element == element) {
+      if (NULL != (lowest = (Node**)__remove(tree, &iter))) break;
     }
   }
-  if (lowest != NULL && lowest != (void*) 1) {
-    __remove(tree, (Node**) lowest);
+  if (lowest != NULL && lowest != (void*)1) {
+    __remove(tree, (Node**)lowest);
   }
   tree->length--;
 }
@@ -180,10 +193,11 @@ void* tr_at(Tree* tree, void* element) {
   for (int i = 0; i < tree->length; i++) {
     if (at->element < element) {
       at = at->next;
-    } else if (at->element > element) {
+    }
+    else if (at->element > element) {
       at = at->prev;
     }
-    if (at->element == element) return (Node*) at;
+    if (at->element == element) return (Node*)at;
   }
   return NULL;
 }
@@ -200,7 +214,7 @@ void tr_clear(Tree* tree) {
   }
   size_t s = tree->length;
   for (int i = 0; i < s; i++) {
-    tr_erase(tree, qu_front(&elements));
+    tr_erase(tree, qu_front(&elements)->element);
     qu_pop(&elements);
   }
   qu_clear(&elements);
@@ -234,8 +248,8 @@ Node* tr_next(Tree* tree, Node** iter) {
     st_push(&tree->_searchStack, *iter);
     __walk(tree, iter, "prev");
   }
-  if (tree->_searchStack.top != NULL) {
-    *iter = (Node*)st_top(&tree->_searchStack);
+  if (st_top(&tree->_searchStack) != NULL) {
+    *iter = (Node*)st_top(&tree->_searchStack)->element;
     st_pop(&tree->_searchStack);
     return *iter;
   }
@@ -269,8 +283,8 @@ Node* tr_prev(Tree* tree, Node** iter) {
     st_push(&tree->_searchStack, *iter);
     __walk(tree, iter, "next");
   }
-  if (tree->_searchStack.top != NULL) {
-    *iter = (Node*)st_top(&tree->_searchStack);
+  if (st_top(&tree->_searchStack) != NULL) {
+    *iter = (Node*)st_top(&tree->_searchStack)->element;
     st_pop(&tree->_searchStack);
     return *iter;
   }

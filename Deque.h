@@ -8,7 +8,7 @@
 #include <stdarg.h>
 
 typedef struct __Deque__ {
-  int length;
+  size_t length;
 
   /**
    * @private
@@ -49,11 +49,11 @@ void __realloc(Deque* deque, int length) {
  *
  * @public
  */
-Deque deque(size_t size, ...) {
-  Deque dq = { .length = 0, ._elements = malloc(sizeof(void*) * size), ._position = 0 };
+Deque deque(size_t length, ...) {
+  Deque dq = { .length = 0, ._elements = malloc(sizeof(void*) * length), ._position = 0 };
   va_list ap;
-  va_start(ap, size);
-  for (int i = 0; i < size; i++) {
+  va_start(ap, length);
+  for (int i = 0; i < length; i++) {
     dq_push_back(&dq, va_arg(ap, void*));
   }
   va_end(ap);
