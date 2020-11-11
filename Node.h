@@ -3,7 +3,6 @@
 
 #include <stdlib.h>
 #include <stdarg.h>
-#include <string.h>
 
 typedef struct __Node__ Node;
 

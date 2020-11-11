@@ -7,7 +7,6 @@
 #include <string.h>
 
 #include "Stack.h"
-#include "Queue.h"
 
 typedef struct __Tree__ {
   size_t length;
@@ -25,14 +24,14 @@ void  tr_insert(Tree*, void*);
 void  tr_erase(Tree*, void*);
 
 void* tr_at(Tree*, void*);
-void  tr_clear(Tree* tree);
+void  tr_clear(Tree*);
 
 Node* tr_begin(Tree*);
 Node* tr_next(Tree*, Node**);
 Node* tr_end(Tree*);
 Node* tr_prev(Tree*, Node**);
 
-int   tr_done(void* iter);
+int   tr_done(void*);
 
 /**
  * @private
@@ -116,6 +115,41 @@ void* __remove(Tree* tree, Node** target) {
         return __lowest(target, "prev");
       }
     }
+  }
+  return NULL;
+}
+
+/**
+ * Get begin Node
+ *
+ * @private
+ */
+Node* __begin(Tree* tree, const char* direction) {
+  Node* iter = tree->root;
+  st_clear(&tree->_searchStack);
+
+  st_push(&tree->_searchStack, iter);
+  __walk(tree, &iter, direction);
+
+  st_pop(&tree->_searchStack);
+  return iter;
+}
+
+/**
+ * Get next Node
+ *
+ * @private
+ */
+Node* __next(Tree* tree, Node** iter, const char* direction) {
+  *iter = strcmp(direction, "next") ? (*iter)->next : (*iter)->prev;
+  if (*iter != NULL) {
+    st_push(&tree->_searchStack, *iter);
+    __walk(tree, iter, direction);
+  }
+  if (st_top(&tree->_searchStack) != NULL) {
+    *iter = (Node*)st_top(&tree->_searchStack)->element;
+    st_pop(&tree->_searchStack);
+    return *iter;
   }
   return NULL;
 }
@@ -208,18 +242,11 @@ void* tr_at(Tree* tree, void* element) {
  * @public
  */
 void tr_clear(Tree* tree) {
-  Queue elements = queue(0);
-  for (Node* iter = tr_begin(tree); 1 != tr_done(iter); iter = tr_next(tree, &iter)) {
-    qu_push(&elements, iter->element);
-  }
   size_t s = tree->length;
   for (int i = 0; i < s; i++) {
-    tr_erase(tree, qu_front(&elements)->element);
-    qu_pop(&elements);
+    tr_erase(tree, tree->root->element);
   }
-  qu_clear(&elements);
 }
-
 
 /**
  * Get first node by in order
@@ -227,14 +254,7 @@ void tr_clear(Tree* tree) {
  * @public
  */
 Node* tr_begin(Tree* tree) {
-  Node* iter = tree->root;
-  st_clear(&tree->_searchStack);
-
-  st_push(&tree->_searchStack, iter);
-  __walk(tree, &iter, "prev");
-
-  st_pop(&tree->_searchStack);
-  return iter;
+  return __begin(tree, "prev");
 }
 
 /**
@@ -243,17 +263,7 @@ Node* tr_begin(Tree* tree) {
  * @public
  */
 Node* tr_next(Tree* tree, Node** iter) {
-  if ((*iter)->next != NULL) {
-    *iter = (*iter)->next;
-    st_push(&tree->_searchStack, *iter);
-    __walk(tree, iter, "prev");
-  }
-  if (st_top(&tree->_searchStack) != NULL) {
-    *iter = (Node*)st_top(&tree->_searchStack)->element;
-    st_pop(&tree->_searchStack);
-    return *iter;
-  }
-  return NULL;
+  return __next(tree, iter, "prev");
 }
 
 /**
@@ -262,14 +272,7 @@ Node* tr_next(Tree* tree, Node** iter) {
  * @public
  */
 Node* tr_end(Tree* tree) {
-  Node* iter = tree->root;
-  st_clear(&tree->_searchStack);
-
-  st_push(&tree->_searchStack, iter);
-  __walk(tree, &iter, "next");
-
-  st_pop(&tree->_searchStack);
-  return iter;
+  return __begin(tree, "next");
 }
 
 /**
@@ -278,17 +281,7 @@ Node* tr_end(Tree* tree) {
  * @public
  */
 Node* tr_prev(Tree* tree, Node** iter) {
-  if ((*iter)->prev != NULL) {
-    *iter = (*iter)->prev;
-    st_push(&tree->_searchStack, *iter);
-    __walk(tree, iter, "next");
-  }
-  if (st_top(&tree->_searchStack) != NULL) {
-    *iter = (Node*)st_top(&tree->_searchStack)->element;
-    st_pop(&tree->_searchStack);
-    return *iter;
-  }
-  return NULL;
+  return __next(tree, iter, "next");
 }
 
 /**
